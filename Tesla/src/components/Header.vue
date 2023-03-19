@@ -26,10 +26,12 @@
     <div class="right">
       <div class="container">
         <div class="clear" @click="hideNav">
-          <img src="../assets/images/qingchu.png" alt="">
+          <img src="../assets/images/qingchu.png" alt />
         </div>
         <div class="scanner">点击下方看车</div>
-        <div class="modelS box"><router-link class="modelS box" to="./roadSter">Roadster</router-link></div>
+        <div class="modelS box">
+          <router-link class="modelS box" to="./roadSter">Roadster</router-link>
+        </div>
         <div class="modelS box">Model S</div>
         <div class="model3 box">Model 3</div>
         <div class="modelX box">Model X</div>
@@ -41,22 +43,22 @@
 </template>
   
 <script setup>
-import {ref} from 'vue'
-import 'animate.css';
-let isShow=ref(false)
+import { ref } from "vue";
+import "animate.css";
+let isShow = ref(false);
 
-const showNav=()=>{
-  isShow.value=true
-}
-const hideNav=()=>{
-  isShow.value=false
-}
+const showNav = () => {
+  isShow.value = true;
+};
+const hideNav = () => {
+  isShow.value = false;
+};
 </script>
   
   <style lang="less" scoped>
-  .animate__bounceInRight {
-    background: rgba(0, 0, 0, 0.01);
-    backdrop-filter: blur(3px);
+.animate__bounceInRight {
+  background: rgba(0, 0, 0, 0.01);
+  backdrop-filter: blur(3px);
   animation-duration: 0.5s; /* don't forget to set a duration! */
 }
 * {
@@ -78,28 +80,29 @@ a {
 .header {
   display: flex;
   padding: 15px;
-  margin: 0 20px;
   width: 100%;
   justify-content: space-between;
 
   .name {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 540;
-    margin-left: 100px;
+    margin-left: 2%;
   }
   .middle {
     display: flex;
     font-weight: 500;
-    font-size: 15px;
-    width: 640px;
+    font-size: 13px;
+    width: 50%;
     justify-content: space-between;
+    line-height: 20px;
   }
   .right {
     display: flex;
-    width: 240px;
+    width: 20%;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 13px;
     justify-content: space-between;
+    line-height: 20px;
   }
 }
 .nav {
@@ -120,13 +123,13 @@ a {
   .right {
     flex: 1;
     background: #fff;
-    .clear{
+    .clear {
       position: fixed;
       right: 20px;
       top: 30px;
       width: 15px;
       height: 15px;
-      img{
+      img {
         color: #393c41;
         width: 100%;
         height: 100%;

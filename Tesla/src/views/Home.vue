@@ -164,20 +164,20 @@ const handleScroll = () => {
   .box {
     opacity: 100%;
     .des {
-      padding-top: 130px;
+      padding-top: 6%;
       .modelName {
         font-size: 33px;
         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
         font-weight: 580;
       }
       .booking {
-        margin-top: 10px;
+        // margin-top: 10px;
         text-align: center;
       }
     }
 
     .button {
-      margin-top: 370px;
+      margin-top: 25%;
       display: flex;
       justify-content: center;
       .buttonDetail {
@@ -203,7 +203,7 @@ const handleScroll = () => {
   .box {
     opacity: 100%;
     .des {
-      padding-top: 130px;
+      padding-top: 6%;
       .modelName {
         font-size: 33px;
         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -216,7 +216,7 @@ const handleScroll = () => {
     }
 
     .button {
-      margin-top: 370px;
+      margin-top: 25%;
       display: flex;
       justify-content: center;
       .buttonDetail {
@@ -242,7 +242,7 @@ const handleScroll = () => {
   .box {
     opacity: 100%;
     .des {
-      padding-top: 130px;
+      padding-top: 6%;
       .modelName {
         font-size: 33px;
         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -255,7 +255,7 @@ const handleScroll = () => {
     }
 
     .button {
-      margin-top: 370px;
+      margin-top: 25%;
       display: flex;
       justify-content: center;
       .buttonDetail {
@@ -281,7 +281,7 @@ const handleScroll = () => {
   .box {
     opacity: 100%;
     .des {
-      padding-top: 130px;
+      padding-top: 6%;
       .modelName {
         font-size: 33px;
         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -294,7 +294,7 @@ const handleScroll = () => {
     }
 
     .button {
-      margin-top: 370px;
+      margin-top: 25%;
       display: flex;
       justify-content: center;
       .buttonDetail {
@@ -320,7 +320,7 @@ const handleScroll = () => {
   .box {
     opacity: 100%;
     .des {
-      padding-top: 130px;
+      padding-top: 6%;
       .modelName {
         font-size: 33px;
         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -333,7 +333,7 @@ const handleScroll = () => {
     }
 
     .button {
-      margin-top: 370px;
+      margin-top: 25%;
       display: flex;
       justify-content: center;
       .buttonDetail {
@@ -359,7 +359,7 @@ const handleScroll = () => {
   .box {
     opacity: 100%;
     .des {
-      padding-top: 130px;
+      padding-top: 6%;
       .modelName {
         font-size: 33px;
         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -372,7 +372,7 @@ const handleScroll = () => {
     }
 
     .button {
-      margin-top: 370px;
+      margin-top: 25%;
       display: flex;
       justify-content: center;
       .buttonDetail {

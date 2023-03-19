@@ -383,12 +383,12 @@ onMounted(() => {
   .img1 {
     width: 100%;
     height: 100%;
-    background: url("https://tesla-cdn.thron.com/delivery/public/image/tesla/8a74d206-66dc-4386-8c7a-88ff32174e7d/bvlatuR/std/4096x2560/Model-S-Main-Hero-Desktop-LHD");
+    background: url("https://tesla-cdn.thron.com/delivery/public/image/tesla/9ed31f26-4d49-4701-bc5b-2121ff85e5b3/bvlatuR/std/2880x1800/Model-S-Main-Hero-Desktop-LHD?quality=auto-medium&format=auto");
     background-size: 100% 135%;
     background-position: 0px -130px;
     .header {
       text-align: center;
-      padding-top: 140px;
+      padding-top: 7%;
       .name {
         font-size: 28px;
         margin-bottom: 10px;
@@ -396,7 +396,7 @@ onMounted(() => {
       }
     }
     .bottom {
-      margin: 25% 300px 0 300px;
+      margin: 25% 20% 0 20%;
       color: #fff;
       display: flex;
       text-align: center;
@@ -405,8 +405,8 @@ onMounted(() => {
       .box1 {
         margin-right: 30px;
         .bigWords {
-          font-size: 25px;
-          margin-bottom: 13px;
+          font-size: 20px;
+          margin-bottom: 8%;
         }
         .smallWords {
           font-size: 10px;
@@ -434,10 +434,10 @@ onMounted(() => {
       }
     }
     .usa {
-      font-size: 12px;
+      font-size: 8px;
       color: #fff;
       text-align: center;
-      margin-top: 40px;
+      margin-top: 4%;
     }
   }
 
@@ -483,8 +483,9 @@ onMounted(() => {
     box-sizing: border-box;
     .top {
       width: 100%;
-      height: 310px;
+      height: 30%;
       display: flex;
+      padding: 20px 0 0 0;
       .top-left {
         width: 50%;
         height: 100%;
@@ -502,7 +503,7 @@ onMounted(() => {
     }
     .middle {
       width: 100%;
-      height: 310px;
+      height: 30%;
       display: flex;
       .middle-right {
         width: 50%;
@@ -521,7 +522,7 @@ onMounted(() => {
     }
     .botton {
       width: 100%;
-      height: 310px;
+      height: 30%;
       display: flex;
       .botton-left {
         width: 50%;
@@ -724,7 +725,7 @@ onMounted(() => {
     box-sizing: border-box;
     .top {
       width: 100%;
-      height: 310px;
+      height: 30%;
       display: flex;
       .top-left {
         width: 50%;
@@ -743,7 +744,7 @@ onMounted(() => {
     }
     .middle {
       width: 100%;
-      height: 310px;
+      height: 30%;
       display: flex;
       .middle-right {
         width: 50%;
@@ -762,7 +763,7 @@ onMounted(() => {
     }
     .botton {
       width: 100%;
-      height: 310px;
+      height: 30%;
       display: flex;
       .botton-left {
         width: 50%;
