@@ -207,7 +207,6 @@
               <div class="select-item-color" :style="{background: item}"></div>
             </div>
           </div>
-          <div class="words">选择贴膜材质</div>
         </div>
       </div>
     </div>
@@ -814,7 +813,10 @@ onMounted(() => {
     }
   }
 }
-.content-box {
+.home{
+  border: 1px solid #000;
+
+  .content-box {
   position: relative;
   .content {
     position: absolute;
@@ -839,4 +841,6 @@ onMounted(() => {
     border-radius: 10px;
   }
 }
+}
+
 </style>

@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="words">选择贴膜材质</div>
-        <div class="select">
+      <div class="select">
         <div
           class="select-item"
           v-for="(item, index) in colors"
@@ -43,21 +43,21 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 
 onMounted(() => {
   containerRef.value.appendChild(renderer.domElement);
-  renderer.setClearColor("#000");
-  scene.background = new THREE.Color("#fff");
+  renderer.setClearColor("#000");  // 
+  scene.background = new THREE.Color("#fff");  // 场景颜色
   scene.environment = new THREE.Color("#fff");
   render();
 
   controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
 
-  const gridHelper = new THREE.GridHelper(10, 10);
-  gridHelper.material.opacity = 0.2;
+  const gridHelper = new THREE.GridHelper(10, 10);  // 网格地面
+  gridHelper.material.opacity = 0.2;  // 网格透明度
   gridHelper.material.transparent = true;
-  scene.add(gridHelper);
+  scene.add(gridHelper);  // 场景添加网格
 
   // 添加汽车模型
-  const loader = new GLTFLoader();
+  const loader = new GLTFLoader(); // 加载器
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath("../../../public/roadSter/draco/gltf/");
   loader.setDRACOLoader(dracoLoader);
@@ -148,19 +148,15 @@ let colors = [
   {
     name: "珍珠白",
     color: "white"
-  },
+  }
 ];
 
-let carSurface=[
-
-]
-
 // 创建加载器
-const loader =new THREE.TextureLoader()
-const texture =loader.load("../../../public/imgs/1.jpg")
-texture.minFilter=THREE.LinearFilter;
+const loader = new THREE.TextureLoader();
+const texture = loader.load("../../../public/imgs/1.jpg");
+texture.minFilter = THREE.LinearFilter;
 //  创建车衣
-const carTexture=new THREE.MeshBasicMaterial({map:texture})  
+const carTexture = new THREE.MeshBasicMaterial({ map: texture });
 
 // 创建渲染器
 const renderer = new THREE.WebGLRenderer({
@@ -194,8 +190,8 @@ const bodyMaterial = new THREE.MeshPhysicalMaterial({
   metalness: 1,
   roughness: 0.5,
   clearcoat: 1,
-  clearcoatRoughness: 0,
-//   map :carTexture 
+  clearcoatRoughness: 0
+  //   map :carTexture
 });
 const frontMaterial = new THREE.MeshPhysicalMaterial({
   color: 0x424449,
@@ -224,18 +220,17 @@ let controls = null;
 let wheels = [];
 let carBody, frontCar, hoodCar, glassCar;
 
-
 const selectColor = color => {
   wheelsMaterial.color.set(color);
   bodyMaterial.color.set(color);
   frontMaterial.color.set(color);
   hoodMaterial.color.set(color);
 };
- // 更换车衣
-const changeCarSurface= carTexture =>{
-    bodyMaterial.color.set(carTexture);
+// 更换车衣
+const changeCarSurface = carTexture => {
+  bodyMaterial.color.set(carTexture);
   frontMaterial.color.set(carTexture);
-}
+};
 </script>
   
   <style lang="less" scoped>
@@ -271,7 +266,7 @@ const changeCarSurface= carTexture =>{
     border-radius: 50px;
     margin-bottom: 10px;
   }
-  .select-item-color-name{
+  .select-item-color-name {
     font-size: 14px;
   }
 }

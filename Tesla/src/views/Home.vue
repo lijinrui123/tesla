@@ -70,6 +70,7 @@
     <div class="box" :style="des6">
       <div class="des">
         <div class="modelName">充电产品和精品配件</div>
+        <div class="booking">a</div>
       </div>
 
       <el-row class="button">
@@ -124,36 +125,101 @@ const handleScroll = () => {
     window.pageYOffset ||
     document.documentElement.scrollTop ||
     document.body.scrollTop; //兼容不同的浏览器
-  const clientHeight = document.documentElement.clientHeight;  // 获取3可视区高度
+  const clientHeight = document.documentElement.clientHeight; // 获取3可视区高度
   // console.log(clientHeight);
   if (scrollTop < clientHeight / 2) {
     des1.opacity = 1 - scrollTop / (clientHeight / 2);
-  }else if (clientHeight / 2 <=scrollTop && scrollTop < clientHeight) {
+    des2.opacity = 0;
+    des3.opacity = 0;
+    des4.opacity = 0;
+    des5.opacity = 0;
+    des6.opacity = 0;
+  } else if (clientHeight / 2 <= scrollTop && scrollTop < clientHeight) {
+    des1.opacity = 0;
     des2.opacity = (scrollTop - clientHeight / 2) / (clientHeight / 2);
-  }else if (clientHeight <= scrollTop && scrollTop < (clientHeight * 3) / 2) {
-    des2.opacity =1 - (scrollTop-clientHeight) / (clientHeight / 2);
-  }else if((clientHeight*3)/2<=scrollTop && scrollTop<clientHeight*2){
-    des3.opacity = (scrollTop - clientHeight*3 / 2) / (clientHeight / 2);
-  }else if(2*clientHeight<=scrollTop && scrollTop<(clientHeight*5/2)){
-    des3.opacity =1 - (scrollTop-clientHeight*2) / (clientHeight / 2);
-  }else if(3*clientHeight<=scrollTop && scrollTop<(clientHeight*7/2)){
-    des4.opacity = (scrollTop - clientHeight*5/2) / (clientHeight / 2);
-  }else if(2*clientHeight<=scrollTop && scrollTop<(clientHeight*5/2)){
-    des4.opacity =1 - (scrollTop-clientHeight*5) / (clientHeight / 2);
-  }else if(2*clientHeight<=scrollTop && scrollTop<(clientHeight*5/2)){
-    des5.opacity =1 - (scrollTop-clientHeight*2) / (clientHeight / 2);
-  }else if(2*clientHeight<=scrollTop && scrollTop<(clientHeight*5/2)){
-    des5.opacity =1 - (scrollTop-clientHeight*2) / (clientHeight / 2);
-  }else if(2*clientHeight<=scrollTop && scrollTop<(clientHeight*5/2)){
-    des6.opacity =1 - (scrollTop-clientHeight*2) / (clientHeight / 2);
-  }else if(2*clientHeight<=scrollTop && scrollTop<(clientHeight*5/2)){
-    des6.opacity =1 - (scrollTop-clientHeight*2) / (clientHeight / 2);
+  } else if (clientHeight <= scrollTop && scrollTop < (clientHeight * 3) / 2) {
+    des2.opacity = 1 - (scrollTop - clientHeight) / (clientHeight / 2);
+    des1.opacity = 0;
+    des6.opacity = 0;
+    des3.opacity = 0;
+    des4.opacity = 0;
+    des5.opacity = 0;
+  } else if (
+    (clientHeight * 3) / 2 <= scrollTop &&
+    scrollTop < clientHeight * 2
+  ) {
+    des2.opacity = 0;
+    des3.opacity = (scrollTop - (clientHeight * 3) / 2) / (clientHeight / 2);
+  } else if (
+    2 * clientHeight <= scrollTop &&
+    scrollTop < (clientHeight * 5) / 2
+  ) {
+    des3.opacity = 1 - (scrollTop - clientHeight * 2) / (clientHeight / 2);
+    des1.opacity = 0;
+    des2.opacity = 0;
+    des6.opacity = 0;
+    des4.opacity = 0;
+    des5.opacity = 0;
+  } else if (
+    (5 / 2) * clientHeight <= scrollTop &&
+    scrollTop < clientHeight * 3
+  ) {
+    des3.opacity = 0;
+    des4.opacity = (scrollTop - (clientHeight * 5) / 2) / (clientHeight / 2);
+  } else if (
+    3 * clientHeight <= scrollTop &&
+    scrollTop < (clientHeight * 7) / 2
+  ) {
+    des4.opacity = 1 - (scrollTop - clientHeight * 3) / (clientHeight / 2);
+    des1.opacity = 0;
+    des2.opacity = 0;
+    des3.opacity = 0;
+    des6.opacity = 0;
+    des5.opacity = 0;
+  } else if (
+    (7 / 2) * clientHeight <= scrollTop &&
+    scrollTop < clientHeight * 4
+  ) {
+    des4.opacity = 0;
+    des5.opacity = (scrollTop - (clientHeight * 7) / 2) / (clientHeight / 2);
+  } else if (
+    4 * clientHeight <= scrollTop &&
+    scrollTop < (clientHeight * 9) / 2
+  ) {
+    des1.opacity = 0;
+    des2.opacity = 0;
+    des3.opacity = 0;
+    des4.opacity = 0;
+    des6.opacity = 0;
+    des5.opacity = 1 - (scrollTop - clientHeight * 4) / (clientHeight / 2);
+  } else if (
+    (9 / 2) * clientHeight <= scrollTop &&
+    scrollTop < clientHeight * 5
+  ) {
+    des1.opacity = 0;
+    des2.opacity = 0;
+    des3.opacity = 0;
+    des4.opacity = 0;
+    des5.opacity = 0;
+    des6.opacity = (scrollTop - (clientHeight * 9) / 2) / (clientHeight / 2);
   }
-  
 };
 </script>
   
   <style lang="less" scoped>
+  .header{
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+  }
+.box {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+}
 .img1 {
   text-align: center;
   width: 100%;
@@ -171,7 +237,7 @@ const handleScroll = () => {
         font-weight: 580;
       }
       .booking {
-        // margin-top: 10px;
+        margin-top: 10px;
         text-align: center;
       }
     }
@@ -368,6 +434,7 @@ const handleScroll = () => {
       .booking {
         margin-top: 10px;
         text-align: center;
+        opacity: 0;
       }
     }
 
@@ -388,7 +455,12 @@ const handleScroll = () => {
     }
   }
   .botton {
-    margin-top: 100px;
+    position: absolute;
+    font-size: 10px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: -500%;
   }
 }
 </style>

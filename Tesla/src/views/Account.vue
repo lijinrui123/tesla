@@ -2,11 +2,11 @@
   <div class="tesla">T E S L A</div>
   <div class="main" v-if="login">
     <div class="login">登录</div>
-    <div class="email">电子邮箱地址</div>
-    <input type="text" class="input" placeholder="请输入你的邮箱" />
+    <div class="email">账号</div>
+    <input type="text" class="input" placeholder="请输入你的账号" name="account" />
     <div class="email">密码</div>
-    <input type="password" class="input" placeholder="请输入密码" />
-    <div class="next">下一步</div>
+    <input type="password" class="input" placeholder="请输入密码" name="password" />
+    <div class="next" @click="loginIn">下一步</div>
     <div class="concel">取消</div>
     <div class="forget">
       <div class="lostEmail">忘记电子邮箱？</div>|
@@ -75,14 +75,14 @@
 <script setup>
 // 引入
 import { ref, reactive, onMounted } from "vue";
-import axios from '../api/index.js'
+import axios from "../api/index.js";
 
 onMounted(() => {
   if (login === false) {
     // 开始生成验证码
     state.imgCode = draw();
   }
-//   console.log(login.value);
+  //   console.log(login.value);
 });
 
 // 声明变量
@@ -107,16 +107,19 @@ const state = reactive({
   pool: "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
   imgCode: ""
 });
+// 点击下一步
+const loginIn = () => {
+  // if()
+};
 // 声明函数
 const createAccount = () => {
-  
-  login.value= !login.value;
-  handleDraw()
+  login.value = !login.value;
+  handleDraw();
   state.imgCode = draw();
 };
-const loginAccount =()=>{
-login.value= !login.value;
-}
+const loginAccount = () => {
+  login.value = !login.value;
+};
 // 生成随机数
 const randomNum = (min, max) => {
   return parseInt(Math.random() * (max - min) + min);
