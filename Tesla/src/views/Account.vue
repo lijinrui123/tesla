@@ -3,9 +3,9 @@
   <div class="main" v-if="login">
     <div class="login">登录</div>
     <div class="email">账号</div>
-    <input type="text" class="input" placeholder="请输入你的账号" name="account" />
+    <input type="text" class="input" placeholder="请输入你的账号" v-model="account" />
     <div class="email">密码</div>
-    <input type="password" class="input" placeholder="请输入密码" name="password" />
+    <input type="password" class="input" placeholder="请输入密码" v-model="password" />
     <div class="next" @click="loginIn">下一步</div>
     <div class="concel">取消</div>
     <div class="forget">
@@ -108,8 +108,15 @@ const state = reactive({
   imgCode: ""
 });
 // 点击下一步
+let account=ref('')
+let password=ref('')
 const loginIn = () => {
-  // if()
+  if(account.value===''){
+    window.alert('请输入账号')
+  }
+  if(account.value!='' && password.value===''){
+    window.alert('请输入密码')
+  }
 };
 // 声明函数
 const createAccount = () => {
