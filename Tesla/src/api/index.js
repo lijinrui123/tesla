@@ -14,7 +14,6 @@ axios.interceptors.request.use(res=>{
 })
 
 axios.interceptors.response.use(res=>{
-    
 })
 
 export default axios

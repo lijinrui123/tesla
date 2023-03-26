@@ -207,7 +207,17 @@
               <div class="select-item-color" :style="{background: item}"></div>
             </div>
           </div>
-          <div class="words">选择贴膜材质</div>
+          <div class="words">选择车轱颜色</div>
+          <div class="select">
+            <div
+              class="select-item"
+              v-for="(item, index) in colors"
+              :key="index"
+              @click="selectColor(item)"
+            >
+              <div class="select-item-color" :style="{background: item}"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -278,32 +288,38 @@ let controls = null;
 const renderer = new three.WebGLRenderer({
   antialias: true // 抗锯齿效果
 });
-renderer.setSize(window.innerWidth*0.8, window.innerHeight*0.8); // 设置渲染器的宽高
+renderer.setSize(window.innerWidth * 0.9, window.innerHeight * 0.9); // 设置渲染器的宽高
 
 // 场景
 const scene = new three.Scene();
 
 // 相机
 const camera = new three.PerspectiveCamera(
-  40,  //
+  40, //
   window.innerWidth / window.innerHeight, // 宽高比
-  0.1,  // 离物体最近的距离
-  1000  // 离物体最远的距离
+  0.1, // 离物体最近的距离
+  1000 // 离物体最远的距离
 );
 camera.position.set(0, 2, 6);
 
 // 材质
-const material1=new three.MeshBasicMaterial({color:'black'})
-const material2=new three.MeshBasicMaterial({color:'red'})
-const material3=new three.MeshBasicMaterial({color:'blue'})
-const material4=new three.MeshBasicMaterial({color:'black'})
-const material5=new three.MeshBasicMaterial({color:'gray'})
-const material6=new three.MeshBasicMaterial({color:'orange'})
-const material7=new three.MeshBasicMaterial({color:'purple'})
-const material8=new three.MeshBasicMaterial({color:'yellow'})
-const material9=new three.MeshBasicMaterial({color:'pink'})
-const material10=new three.MeshBasicMaterial({color:'white'})
+const material1 = new three.MeshBasicMaterial({ color: "black" });
+const material2 = new three.MeshBasicMaterial({ color: "red" });
+const material3 = new three.MeshBasicMaterial({ color: "blue" });
+const material4 = new three.MeshBasicMaterial({ color: "black" });
+const material5 = new three.MeshBasicMaterial({ color: "gray" });
+const material6 = new three.MeshBasicMaterial({ color: "orange" });
+const material7 = new three.MeshBasicMaterial({ color: "purple" });
+const material8 = new three.MeshBasicMaterial({ color: "yellow" });
+const material9 = new three.MeshBasicMaterial({ color: "pink" });
+const material10 = new three.MeshBasicMaterial({ color: "white" });
 
+// 轮毂
+const wheelsMaterial = new three.MeshPhysicalMaterial({
+  color: 0xff0000,
+  metalness: 1,
+  roughness: 0.5
+});
 
 const render = () => {
   renderer.render(scene, camera);
@@ -338,6 +354,17 @@ onMounted(() => {
     // console.log(Array.isArray(models.parent));
     console.log(models);
     scene.add(models);
+    models.traverse((child)=>{
+      if(child.isMesh){
+        console.log(child);
+      }
+      if (child.isMesh && child.name.includes("Circle005_0")) {
+        child.material = wheelsMaterial;
+      }
+      if (child.isMesh && child.name.includes("Circle000_0")) {
+        child.material = wheelsMaterial;
+      }
+    })
   });
 
   //创建网格
@@ -368,12 +395,7 @@ onMounted(() => {
   const light8 = new three.DirectionalLight(0xffffff, 1);
   light8.position.set(0, 10, -5);
   scene.add(light8);
-  const light9 = new three.DirectionalLight(0xffffff, 1);
-  light9.position.set(-5, 10, 0);
-  scene.add(light9);
 });
-
-
 </script>
 
 <style lang="less" scoped>
@@ -820,13 +842,14 @@ onMounted(() => {
     position: absolute;
     top: 40px;
     right: 20px;
-    .words{
+    .words {
       font-size: 15px;
       margin: 10px;
     }
   }
   .select {
     display: flex;
+    // width: 200px;
   }
   .select-item {
     margin: 5px;
