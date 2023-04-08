@@ -27,13 +27,13 @@
   <div class="create" v-else>
     <div class="createAccount">创建账户</div>
     <div class="top">名字</div>
-    <input type="text" class="input" placeholder="请输入你的名字" />
+    <input type="text" class="input" placeholder="请输入你的名字" v-model="lastname" />
     <div class="top">姓氏</div>
-    <input type="text" class="input" placeholder="请输入你的姓氏" />
+    <input type="text" class="input" placeholder="请输入你的姓氏" v-model="firstname" />
     <div class="top">电子邮箱</div>
-    <input type="text" class="input" placeholder="请输入你的邮箱" />
+    <input type="text" class="input" placeholder="请输入你的邮箱" v-model="mail" />
     <div class="top">密码</div>
-    <input type="password" class="input" placeholder="请输入密码" />
+    <input type="password" class="input" placeholder="请输入密码" v-model="regPassword" />
     <div class="check">
       <input type="checkbox" class="checkbox" />
       <div class="des">创建 Tesla 账户，即表示我了解并同意</div>
@@ -64,6 +64,13 @@
 // 引入
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from "element-plus";
+import axios from "axios";
+import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import useAccountStore from "../stores/account";
+
+let accountStore = storeToRefs(useAccountStore());
+console.log(accountStore);
 
 onMounted(() => {
   if (login === false) {
@@ -74,6 +81,7 @@ onMounted(() => {
 });
 
 // 声明变量
+const router = useRouter();
 let login = ref(true);
 const value = ref("");
 const verify = ref(null); // 验证码
@@ -91,7 +99,43 @@ const open = () => {
   if (account.value != "" && password.value === "") {
     ElMessage.error("请输入密码");
   }
+
+  if (account.value && password.value) {
+    // 如果输入了账号与密码就发接口请求
+    axios({
+      method: "post",
+      url: "http://localhost:3000/login",
+      data: {
+        account: account.value,
+        password: password.value
+      }
+    })
+      .then(res => {
+        console.log(res);
+        if (res.data.code === 1) {
+          accountStore.saveAccount(res.data.data.account.value)
+          console.log(accountStore.account.value);
+          router.push({
+            path: "/teslaaccount",
+            query: {
+              account: account.value
+            }
+          });
+          ElMessage.success("登录成功");
+        } else {
+          ElMessage.error("账号或密码错误");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 };
+
+let firstname = ref("");
+let lastname = ref("");
+let regPassword = ref("");
+let mail = ref("");
 
 // 声明函数
 const createAccount = () => {

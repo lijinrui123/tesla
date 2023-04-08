@@ -1,4 +1,5 @@
 const Koa = require('koa')
+const cors = require('koa2-cors');
 const bodyParser = require('koa-bodyparser')  // 为了让 koa 可以解析出来 post 请求传递的参数
 const app = new Koa()
 const mongoose = require('mongoose')   // 用来连接mongodb
@@ -7,15 +8,17 @@ mongoose.set("strictQuery", true)
 
 const config = require('./config.js')
 
-mongoose.connect(config.db, { useNewUrlParser: true }, (err) => {
+mongoose.connect(config.db, { useNewUrlParser: true },(err)=> {
     if (err) {
         console.error(err)
     } else {
         console.log('数据库连接成功');
     }
 })
+// mongoose.connect(config.db).catch(error=>handleError(error))
 
 app.use(bodyParser())
+app.use(cors())
 const user_router = require('./routes/user/index/index.js')
 
 app.use(user_router.routes()).use(user_router.allowedMethods())   // 让路由与koa联系起来

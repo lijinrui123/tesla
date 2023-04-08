@@ -68,6 +68,11 @@ const router = createRouter({
       name: 'roadSter',
       component: () => import('../views/model/roadSter.vue')
     },
+    {
+      path: '/teslaaccount',
+      name: 'teslaaccount',
+      component: () => import('../views/TeslaAccount.vue')
+    },
   ]
 })
 
