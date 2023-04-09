@@ -1,8 +1,5 @@
-const userInfo=require('../../modles/user')   // UserInfo 就是生成的user表
-// 控制登录的逻辑
-const post = async () => {
+const userInfo=require('../../modles/login')   // UserInfo 就是生成的user表
 
-}
 // 登录操作
 const login = async (ctx, next) => {
     console.log(ctx.request.body);
@@ -39,6 +36,5 @@ const login = async (ctx, next) => {
 }
 
 module.exports = {
-    post,
     login
 }

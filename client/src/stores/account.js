@@ -1,14 +1,17 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-const accountStore = defineStore('accountStore', {
+const useAccountStore = defineStore('accountStore', {
   state:()=>{
     return {
-      account:''
+      useAccount:''
     }
   },
   actions:{
-    saveAccount(){
-      this.account='bruce'
+    saveAccount(account){
+      this.useAccount=account
+    },
+    useLogOut(){
+      this.useAccount=''
     }
   }
 })
@@ -21,4 +24,4 @@ const accountStore = defineStore('accountStore', {
 
 //   return{account,saveAccount}
 // })
-export default accountStore
+export default useAccountStore

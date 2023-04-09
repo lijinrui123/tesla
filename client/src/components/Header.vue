@@ -16,7 +16,6 @@
       <div class="right">
         <router-link to="/onlionShop">在线商店</router-link>
         <router-link to="/account">账户</router-link>
-        <!-- <router-link to="/account">导航栏</router-link> -->
         <div class="nav" @click="showNav">导航栏</div>
       </div>
     </div>

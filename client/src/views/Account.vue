@@ -1,5 +1,8 @@
 <template>
-  <div class="tesla">T E S L A</div>
+  <!-- <div class="tesla">T E S L A</div> -->
+  <div class="header">
+    <Header />
+  </div>
   <div class="main" v-if="login">
     <div class="login">登录</div>
     <div class="email">账号</div>
@@ -7,7 +10,7 @@
     <div class="email">密码</div>
     <input type="password" class="input" placeholder="请输入密码" v-model="password" />
     <el-button :plain="true" class="next" @click="open">登录</el-button>
-    <div class="concel">取消</div>
+    <div class="concel" @click="cancel">取消</div>
     <div class="forget">
       <div class="lostEmail">忘记电子邮箱？</div>|
       <div class="lostPassword">忘记密码？</div>
@@ -26,25 +29,27 @@
   </div>
   <div class="create" v-else>
     <div class="createAccount">创建账户</div>
-    <div class="top">名字</div>
-    <input type="text" class="input" placeholder="请输入你的名字" v-model="lastname" />
-    <div class="top">姓氏</div>
-    <input type="text" class="input" placeholder="请输入你的姓氏" v-model="firstname" />
-    <div class="top">电子邮箱</div>
-    <input type="text" class="input" placeholder="请输入你的邮箱" v-model="mail" />
+    <div class="top">账号</div>
+    <input type="text" class="input" placeholder="请输入你的账号" v-model="reAccount" />
     <div class="top">密码</div>
-    <input type="password" class="input" placeholder="请输入密码" v-model="regPassword" />
+    <input type="password" class="input" placeholder="请输入密码" v-model="rePassword" />
+    <div class="top">请再次输入密码</div>
+    <input type="password" class="input" placeholder="请输入密码" v-model="rePasswordAgain" />
     <div class="check">
-      <input type="checkbox" class="checkbox" />
-      <div class="des">创建 Tesla 账户，即表示我了解并同意</div>
+      <el-checkbox
+        v-model="checked"
+        label="创建 Tesla 账户，即表示我了解并同意"
+        size="large"
+        @click="changeCheck"
+      />
     </div>
 
     <div class="img-verify">
       <canvas width="340" height="80" ref="verify" @click="handleDraw">点击此处生成</canvas>
     </div>
-    <div class="top">请输入图片中的字符</div>
-    <input type="text" class="input" />
-    <div class="newAccount">创建账户</div>
+    <div class="top">点击上方灰色区域，输入图片中的字符</div>
+    <input type="text" class="input" placeholder="请输入验证码" v-model="verifyInput" />
+    <div class="newAccount" @click="register">创建账户</div>
     <div class="concel">取消</div>
     <div class="other">
       <div class="line"></div>
@@ -60,6 +65,7 @@
   </div>
 </template>
 
+
 <script setup>
 // 引入
 import { ref, reactive, onMounted } from "vue";
@@ -68,16 +74,25 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import useAccountStore from "../stores/account";
-
-let accountStore = storeToRefs(useAccountStore());
-console.log(accountStore);
+import Header from "../components/Header.vue";
+const accountStore = useAccountStore();
+const { useAccount, saveAccount } = storeToRefs(accountStore);
 
 onMounted(() => {
-  if (login === false) {
+  if (login === true) {
     // 开始生成验证码
     state.imgCode = draw();
   }
-  //   console.log(login.value);
+  // 登录页阻止回退
+  sessionStorage.clear();
+  history.pushState(null, null, document.URL);
+  window.addEventListener(
+    "popstate",
+    function() {
+      history.pushState(null, null, document.URL);
+    },
+    false
+  );
 });
 
 // 声明变量
@@ -113,8 +128,9 @@ const open = () => {
       .then(res => {
         console.log(res);
         if (res.data.code === 1) {
-          accountStore.saveAccount(res.data.data.account.value)
-          console.log(accountStore.account.value);
+          console.log(res.data.data.account);
+          accountStore.saveAccount(res.data.data.account);
+          console.log(accountStore.useAccount);
           router.push({
             path: "/teslaaccount",
             query: {
@@ -123,7 +139,7 @@ const open = () => {
           });
           ElMessage.success("登录成功");
         } else {
-          ElMessage.error("账号或密码错误");
+          ElMessage.error(res.data.msg);
         }
       })
       .catch(err => {
@@ -132,10 +148,77 @@ const open = () => {
   }
 };
 
-let firstname = ref("");
-let lastname = ref("");
-let regPassword = ref("");
-let mail = ref("");
+// 点击取消，返回home页
+const cancel = () => {
+  router.push({
+    path: "/home"
+  });
+};
+
+// 注册账号
+let reAccount = ref("");
+let rePassword = ref("");
+let rePasswordAgain = ref("");
+let checked = ref(false);
+let verifyInput = ref("");
+const changeCheck = () => {
+  checked = !checked;
+  // console.log(checked.value);
+};
+const register = () => {
+  if (!reAccount.value) {
+    ElMessage.error("请输入账号");
+  } else if (!rePassword.value) {
+    ElMessage.error("请输入密码");
+  } else if (!rePasswordAgain.value) {
+    ElMessage.error("请再次输入密码");
+  } else if (rePassword.value !== rePasswordAgain.value) {
+    ElMessage.error("两次输入密码不一致，请重新输入");
+  } else if (checked.value === false) {
+    ElMessage.error("请勾选同意");
+  } else if (rePassword.value.length < 6) {
+    ElMessage.error("请输入最少六位长度的密码");
+  }
+
+  // if(verifyInput.value !== draw()){
+  //   ElMessage.error("验证码有误");
+  // }
+  if (
+    rePassword.value === rePasswordAgain.value &&
+    rePassword.value.length >= 6
+  ) {
+    // 注册
+    console.log(111);
+    axios({
+      method: "post",
+      url: "http://localhost:3000/register",
+      data: {
+        account: reAccount.value,
+        password: rePassword.value
+      }
+    })
+      .then(res => {
+        console.log(res);
+        if (res.data.code === 1) {
+          accountStore.saveAccount(reAccount.value);
+          // console.log(accountStore.useAccount);
+          router.push({
+            path: "/teslaaccount",
+            query: {
+              account: account.value
+            }
+          });
+          ElMessage.success("登录成功");
+          ElMessage.success("注册成功");
+        } else if (res.data.code === 0) {
+          ElMessage.error("账号已存在");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+};
 
 // 声明函数
 const createAccount = () => {
@@ -184,8 +267,31 @@ const handleDraw = () => {
   state.imgCode = draw();
 };
 </script>
+<script>   // 组件路由守卫
+import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
+const accountStore = useAccountStore();
+const { useAccount } = storeToRefs(accountStore);
+export default defineComponent({
+  beforeRouteEnter(to, from, next) {
+    console.log(accountStore.useAccount);
+    if(accountStore.useAccount===''){
+      next();
+    }else{
+      router.push({
+        path:'/teslaaccount'
+      })
+    }
+    
+  }
+});
+</script>
 <style lang="less" scoped>
+.header {
+  margin-bottom: 10vh;
+}
 .tesla {
   font-size: 20px;
   margin-top: 10px;
@@ -332,7 +438,7 @@ const handleDraw = () => {
   }
   .img-verify {
     margin: 30px 0;
-    background: #5c5d61;
+    background: #eeeeee;
     border-radius: 8px;
     box-sizing: border-box;
     canvas {

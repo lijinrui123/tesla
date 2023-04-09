@@ -19,9 +19,11 @@ mongoose.connect(config.db, { useNewUrlParser: true },(err)=> {
 
 app.use(bodyParser())
 app.use(cors())
-const user_router = require('./routes/user/index/index.js')
+const login_router = require('./routes/login/index.js')
+const register_router=require('./routes/register/index.js')
 
-app.use(user_router.routes()).use(user_router.allowedMethods())   // 让路由与koa联系起来
+app.use(login_router.routes()).use(login_router.allowedMethods())   // 让路由与koa联系起来
+app.use(register_router.routes()).use(register_router.allowedMethods())
 app.listen(config.port, () => {
     console.log('项目已启动');
 })
