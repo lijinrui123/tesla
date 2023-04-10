@@ -2,7 +2,7 @@
   <div class="header">
     <Header />
   </div>
-  <div class="img1">
+  <div class="img1" @click="log">
     <div class="box" :style="des1">
       <div class="des">
         <div class="modelName">Model 3</div>
@@ -10,8 +10,8 @@
       </div>
 
       <el-row class="button">
-        <el-button type="info" class="buttonDetail b1">定制我的 Model 3</el-button>
-        <el-button class="buttonDetail b2">了解 Model 3</el-button>
+        <el-button type="info" class="buttonDetail b1" @click="customize">定制我的 Model 3</el-button>
+        <el-button class="buttonDetail b2" @click="customize">了解 Model 3</el-button>
       </el-row>
     </div>
   </div>
@@ -49,7 +49,7 @@
       </div>
 
       <el-row class="button">
-        <el-button type="info" class="buttonDetail b1">定制我的 Model X</el-button>
+        <el-button type="info" class="buttonDetail b1" @click="customize">定制我的 Model X</el-button>
         <el-button class="buttonDetail b2">了解 Model X</el-button>
       </el-row>
     </div>
@@ -62,19 +62,19 @@
       </div>
 
       <el-row class="button">
-        <el-button type="info" class="buttonDetail b1">了解更多</el-button>
+        <el-button type="info" class="buttonDetail b1" @click="customize">了解更多</el-button>
       </el-row>
     </div>
   </div>
   <div class="img6">
-    <div class="box" :style="des6">
+    <div class="box" :style="des6" @click="log">
       <div class="des">
         <div class="modelName">充电产品和精品配件</div>
         <div class="booking">a</div>
       </div>
 
       <el-row class="button">
-        <el-button type="info" class="buttonDetail b1">立即购买</el-button>
+        <el-button type="info" class="buttonDetail b1" @click="customize">立即购买</el-button>
       </el-row>
     </div>
 
@@ -89,18 +89,19 @@
       最新消息
     </div>
   </div>
-  <!-- <div @click="counterStore.doubleCount">{{ counterStore.count }}</div> -->
 </template>
   
 <script setup>
 import Header from "../components/Header.vue";
 import { onMounted, reactive } from "vue";
-// import { useCounterStore } from "@/stores/counter";
-// import {storeToRefs} from 'pinia'
+import { useRouter } from "vue-router";
 
-// const counterStore = useCounterStore();
-// const { count, doubleCount } =storeToRefs(counterStore) ;
-// 生命周期
+const router =useRouter()
+
+const log=()=>{
+  console.log(213);
+}
+
 onMounted(() => {
   window.addEventListener("scroll", handleScroll); // 监听页面滚动
 });
@@ -123,6 +124,13 @@ let des5 = reactive({
 let des6 = reactive({
   opacity: 0
 });
+
+// 定制车辆
+const customize=()=>{
+  router.push({
+    path:'/design'
+  })
+}
 
 // 方法
 const handleScroll = () => {
@@ -252,6 +260,7 @@ const handleScroll = () => {
       margin-top: 25%;
       display: flex;
       justify-content: center;
+      z-index: 1000;
       .buttonDetail {
         width: 250px;
         height: 38px;

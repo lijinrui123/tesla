@@ -79,8 +79,8 @@ const router = createRouter({
       component: () => import('../views/TeslaAccount.vue')
     },
     {
-      path: '/book',
-      name: 'book',
+      path: '/design',
+      name: 'design',
       component: () => import('../views/Book.vue')
     },
   ]

@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <div class="header">
-      <div class="name">T E S L A</div>
+      <!-- <div class="name">T E S L A</div> -->
+      <router-link class="name" to="/home">T E S L A</router-link>
 
       <div class="middle">
         <router-link to="/models">Model S</router-link>
