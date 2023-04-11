@@ -25,7 +25,7 @@
           <div class="bigWords">1,020马力</div>
           <div class="smallWords">赋值功率</div>
         </div>
-        <el-button class="pre-buy" color :dark="isDark" plain>立即订购</el-button>
+        <el-button class="pre-buy" color :dark="isDark" plain @click="customize">立即订购</el-button>
       </div>
       <div class="usa">车辆性能参数均为美国测试标准</div>
     </div>
@@ -133,9 +133,6 @@
               <div class="smallwords">续航里程（预估）</div>
             </div>
           </div>
-          <!-- <div class="reduce">
-            * 减去起步时间
-          </div>-->
         </div>
       </div>
     </div>
@@ -194,29 +191,31 @@
     <div class="home">
       <div class="content-box">
         <div class="container" ref="containerRef"></div>
+      </div>
 
-        <div class="content">
-          <div class="words">选择车身颜色</div>
-          <div class="select">
-            <div
-              class="select-item"
-              v-for="(item, index) in colors"
-              :key="index"
-              @click="selectColor(item)"
-            >
-              <div class="select-item-color" :style="{background: item}"></div>
-            </div>
+      <div class="content">
+        <div class="words">选择车身颜色</div>
+        <div class="select">
+          <div
+            class="select-item"
+            v-for="(item, index) in colors"
+            :key="index"
+            @click="selectColor(item.color)"
+          >
+            <div class="select-item-color" :style="{background: item.color}"></div>
+            <div class="select-item-color-name">{{item.name}}</div>
           </div>
-          <div class="words">选择车轱颜色</div>
-          <div class="select">
-            <div
-              class="select-item"
-              v-for="(item, index) in colors"
-              :key="index"
-              @click="selectColor(item)"
-            >
-              <div class="select-item-color" :style="{background: item}"></div>
-            </div>
+        </div>
+        <div class="words">选择贴膜材质</div>
+        <div class="select">
+          <div
+            class="select-item"
+            v-for="(item, index) in colors"
+            :key="index"
+            @click="selectColor(item.color)"
+          >
+            <div class="select-item-color" :style="{background: item.color}"></div>
+            <div class="select-item-color-name">{{item.name}}</div>
           </div>
         </div>
       </div>
@@ -226,11 +225,20 @@
 
 <script setup>
 import Header from "../components/Header.vue";
-import * as three from "three";
+import { useRouter } from "vue-router";
+import * as THREE from "three";
 import { onMounted, ref } from "vue";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"; // 控制器
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+
+const router =useRouter()
+// 定制车辆
+const customize=()=>{
+  router.push({
+    path:'/design'
+  })
+}
 
 // import { isDark } from '@/composables/dark'
 const urlDate = [
@@ -270,132 +278,191 @@ const urlDate = [
       "车载游戏系统配有高达每秒 10 万亿次浮点运算能力的处理器，媲美目前市面上最新款游戏主机；兼容无线控制手柄和耳机，在任意座椅位置都可畅享游戏乐趣。"
   }
 ];
-let colors = [
-  "black",
-  "red",
-  "blue",
-  "green",
-  "gray",
-  "orange",
-  "purple",
-  "yellow",
-  "pink",
-  "white"
-];
-const containerRef = ref(null);
-let controls = null;
-// 渲染器
-const renderer = new three.WebGLRenderer({
+
+// 创建渲染器
+const renderer = new THREE.WebGLRenderer({
   antialias: true // 抗锯齿效果
 });
-renderer.setSize(window.innerWidth * 0.9, window.innerHeight * 0.9); // 设置渲染器的宽高
-
-// 场景
-const scene = new three.Scene();
+renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8); // 渲染区域
 
 // 相机
-const camera = new three.PerspectiveCamera(
-  40, //
+const camera = new THREE.PerspectiveCamera(
+  40, // 镜头展开角度
   window.innerWidth / window.innerHeight, // 宽高比
   0.1, // 离物体最近的距离
   1000 // 离物体最远的距离
 );
-camera.position.set(0, 2, 6);
+camera.position.set(3, 2, 2); // 设置相机位置
 
-// 材质
-const material1 = new three.MeshBasicMaterial({ color: "black" });
-const material2 = new three.MeshBasicMaterial({ color: "red" });
-const material3 = new three.MeshBasicMaterial({ color: "blue" });
-const material4 = new three.MeshBasicMaterial({ color: "black" });
-const material5 = new three.MeshBasicMaterial({ color: "gray" });
-const material6 = new three.MeshBasicMaterial({ color: "orange" });
-const material7 = new three.MeshBasicMaterial({ color: "purple" });
-const material8 = new three.MeshBasicMaterial({ color: "yellow" });
-const material9 = new three.MeshBasicMaterial({ color: "pink" });
-const material10 = new three.MeshBasicMaterial({ color: "white" });
-
-// 轮毂
-const wheelsMaterial = new three.MeshPhysicalMaterial({
-  color: 0xff0000,
-  metalness: 1,
-  roughness: 0.5
-});
+// 创建场景
+const scene = new THREE.Scene();
 
 const render = () => {
   renderer.render(scene, camera);
   requestAnimationFrame(render);
 };
 
+// 材质
+const wheelsMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0x424449,
+  metalness: 1,
+  roughness: 0.5
+});
+const bodyMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0x424449,
+  metalness: 1,
+  roughness: 0.5,
+  clearcoat: 1,
+  clearcoatRoughness: 0
+  //   map :carTexture
+});
+const frontMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0x424449,
+  metalness: 1,
+  roughness: 0.5,
+  clearcoat: 1,
+  clearcoatRoughness: 0
+});
+const hoodMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0x424449,
+  metalness: 1,
+  roughness: 0.5,
+  clearcoat: 1,
+  clearcoatRoughness: 0
+});
+const glassMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0xffffff,
+  metalness: 0,
+  roughness: 0,
+  transmission: 1,
+  transparent: true
+});
+
 onMounted(() => {
-  // 渲染器会自动生成一个dom结构，就叫canvas标签
   containerRef.value.appendChild(renderer.domElement);
-  renderer.setClearColor("#000");
-  scene.background = new three.Color("#fff"); // 设置场景的背景颜色
-  scene.environment = new three.Color("#fff");
+  renderer.setClearColor("#000"); //
+  scene.background = new THREE.Color("#fff"); // 场景颜色
+  scene.environment = new THREE.Color("#fff");
   render();
 
-  // 控制器
-  controls = new OrbitControls(camera, renderer.domElement);
+  controls = new OrbitControls(camera, renderer.domElement); // 镜头 canvas
   controls.update();
 
-  // 网格地面
-  const gridHelper = new three.GridHelper(16, 10);
+  const gridHelper = new THREE.GridHelper(10, 10); // 网格地面
   gridHelper.material.opacity = 0.2; // 网格透明度
-  gridHelper.material.transparent = true; // 网格
-  scene.add(gridHelper); // 写了网格要加进去
+  gridHelper.material.transparent = true;
+  scene.add(gridHelper); // 场景添加网格
 
   // 添加汽车模型
-  const gltfLoader = new GLTFLoader(); // 添加两种加载器,读取模型
-  const dracoLoader = new DRACOLoader(); // 读取参数的加载器
-  dracoLoader.setDecoderPath("./modelS/parameter/"); // 读取参数
-  gltfLoader.setDRACOLoader(dracoLoader); // 将参数读取到模型上
-  gltfLoader.load("./modelS/model/tesla_model_3_not_finished.glb", gltf => {
-    const models = gltf.scene;
-    // console.log(Array.isArray(models.parent));
-    console.log(models);
-    scene.add(models);
-    models.traverse((child)=>{
-      if(child.isMesh){
-        console.log(child);
+  const loader = new GLTFLoader(); // 加载器
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath("../../public/roadSter/draco/gltf/");
+  loader.setDRACOLoader(dracoLoader);
+  loader.load("../../public/roadSter/model/bmw01.glb", gltf => {
+    const bmw = gltf.scene;
+    console.log(gltf);
+    bmw.traverse(child => {
+      if (child.isMesh) {
+        // console.log(child);
       }
-      if (child.isMesh && child.name.includes("Circle005_0")) {
+      // 轮毂
+      if (child.isMesh && child.name.includes("轮毂")) {
         child.material = wheelsMaterial;
+        wheels.push(child);
       }
-      if (child.isMesh && child.name.includes("Circle000_0")) {
-        child.material = wheelsMaterial;
+      // 车身
+      if (child.isMesh && child.name.includes("Mesh002")) {
+        carBody = child;
+        carBody.material = bodyMaterial;
       }
-    })
+      // 前脸
+      if (child.isMesh && child.name.includes("前脸")) {
+        frontCar = child;
+        frontCar.material = frontMaterial;
+      }
+      // 引擎盖
+      if (child.isMesh && child.name.includes("引擎盖_1")) {
+        hoodCar = child;
+        hoodCar.material = hoodMaterial;
+      }
+      // 挡风玻璃
+      if (child.isMesh && child.name.includes("挡风玻璃")) {
+        glassCar = child;
+        glassCar.material = glassMaterial;
+      }
+    });
+
+    scene.add(bmw);
   });
 
-  //创建网格
-  // const cube1=new three.Mesh(models,material2)
-  // scene.add(cube1)
   // 灯光
-  const light1 = new three.DirectionalLight(0xffffff, 1);
+  const light1 = new THREE.DirectionalLight(0xffffff, 1);
   light1.position.set(0, 0, 10);
   scene.add(light1);
-  const light2 = new three.DirectionalLight(0xffffff, 1);
+  const light2 = new THREE.DirectionalLight(0xffffff, 1);
   light2.position.set(0, 0, -10);
   scene.add(light2);
-  const light3 = new three.DirectionalLight(0xffffff, 1);
+  const light3 = new THREE.DirectionalLight(0xffffff, 1);
   light3.position.set(10, 0, 0);
   scene.add(light3);
-  const light4 = new three.DirectionalLight(0xffffff, 1);
+  const light4 = new THREE.DirectionalLight(0xffffff, 1);
   light4.position.set(-10, 0, 0);
   scene.add(light4);
-  const light5 = new three.DirectionalLight(0xffffff, 1);
+  const light5 = new THREE.DirectionalLight(0xffffff, 1);
   light5.position.set(0, 10, 0);
   scene.add(light5);
-  const light6 = new three.DirectionalLight(0xffffff, 1);
+  const light6 = new THREE.DirectionalLight(0xffffff, 1);
   light6.position.set(5, 10, 0);
   scene.add(light6);
-  const light7 = new three.DirectionalLight(0xffffff, 1);
+  const light7 = new THREE.DirectionalLight(0xffffff, 1);
   light7.position.set(0, 10, 5);
   scene.add(light7);
-  const light8 = new three.DirectionalLight(0xffffff, 1);
+  const light8 = new THREE.DirectionalLight(0xffffff, 1);
   light8.position.set(0, 10, -5);
   scene.add(light8);
+  const light9 = new THREE.DirectionalLight(0xffffff, 1);
+  light9.position.set(-5, 10, 0);
+  scene.add(light9);
 });
+
+let colors = [
+  {
+    name: "冷光银",
+    color: "#424449"
+  },
+  {
+    name: "经典黑",
+    color: "black"
+  },
+  {
+    name: "深海蓝",
+    color: "#000f4a"
+  },
+  {
+    name: "中国红",
+    color: "#bd050f"
+  },
+  {
+    name: "珍珠白",
+    color: "white"
+  }
+];
+// 创建加载器
+const loader = new THREE.TextureLoader();
+const texture = loader.load("../../public/imgs/1.jpg");
+texture.minFilter = THREE.LinearFilter;
+
+const containerRef = ref(null);
+let controls = null;
+let wheels = [];
+let carBody, frontCar, hoodCar, glassCar;
+
+const selectColor = color => {
+  wheelsMaterial.color.set(color);
+  bodyMaterial.color.set(color);
+  frontMaterial.color.set(color);
+  hoodMaterial.color.set(color);
+};
 </script>
 
 <style lang="less" scoped>
@@ -836,20 +903,22 @@ onMounted(() => {
     }
   }
 }
-.content-box {
-  position: relative;
+.home {
+  display: flex;
+  .content-box {
+    position: relative;
+    // border: 1px solid #e8eaed;
+  }
   .content {
-    position: absolute;
-    top: 40px;
-    right: 20px;
+    margin: 10px auto;
+
     .words {
-      font-size: 15px;
-      margin: 10px;
+      font-size: 20px;
+      margin: 20px;
     }
   }
   .select {
     display: flex;
-    // width: 200px;
   }
   .select-item {
     margin: 5px;
@@ -859,7 +928,11 @@ onMounted(() => {
     width: 30px;
     height: 30px;
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+  }
+  .select-item-color-name {
+    font-size: 14px;
   }
 }
 </style>
