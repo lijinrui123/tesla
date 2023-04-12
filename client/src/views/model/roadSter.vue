@@ -1,5 +1,5 @@
 <template>
-  <div class="name">T E S L A</div>
+  <div class="header"><Header/></div>
   <div class="home">
     <div class="content-box">
       <div class="container" ref="containerRef"></div>
@@ -40,6 +40,7 @@ import { onMounted, ref } from "vue";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+import Header from '../../components/Header.vue'
 
 onMounted(() => {
   containerRef.value.appendChild(renderer.domElement);
@@ -237,6 +238,10 @@ const changeCarSurface = carTexture => {
 * {
   margin: 0;
   padding: 0;
+}
+.header{
+  width: 100vw;
+  height: 12vh;
 }
 .home {
   display: flex;

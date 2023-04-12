@@ -1,17 +1,36 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 const useAccountStore = defineStore('accountStore', {
-  state:()=>{
+  state: () => {
     return {
-      useAccount:''
+      useAccount: '',
+      commodity: ''
     }
   },
-  actions:{
-    saveAccount(account){
-      this.useAccount=account
+  actions: {
+    saveAccount(account) {
+      this.useAccount = account
     },
-    useLogOut(){
-      this.useAccount=''
+    useLogOut() {
+      this.useAccount = ''
+    },
+    useSaveCommodity(item) {
+      this.commodity = item
+    },
+    addCars(item) {
+      if (!this.commodity[item]) {
+        this.commodity[item] = item
+        this.commodity[item] = 1
+      } else {
+        this.commodity[item] += 1
+      }
+    },
+    deleteCars(item) {
+      if (this.commodity[item] === 0) {
+        this.commodity[item] = 0
+      } else {
+        this.commodity[item] -= 1
+      }
     }
   }
 })
@@ -25,3 +44,5 @@ const useAccountStore = defineStore('accountStore', {
 //   return{account,saveAccount}
 // })
 export default useAccountStore
+
+

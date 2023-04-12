@@ -14,11 +14,13 @@
     <div class="name">Model S</div>
     <div class="button">
       <el-row>
-        <el-button type="primary" round class="class">订购</el-button>
+        <el-button type="primary" round class="class" @click="preserveCar">订购</el-button>
         <el-button round class="class">预约试驾</el-button>
       </el-row>
     </div>
   </div>
+
+  <div class="page"></div>
 </template>
 
 <script setup>
@@ -40,6 +42,7 @@ onMounted(() => {
     },
     false
   );
+  
 });
 const accountStore = useAccountStore();
 const { useAccount, useLogOut } = storeToRefs(accountStore);
@@ -53,8 +56,32 @@ const logOut = () => {
   accountStore.useLogOut();
   ElMessage.success("已退出登录");
 };
+
+// 订车
+const preserveCar = () => {};
 </script>
 
+<script>
+// 组件路由守卫
+import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const accountStore = useAccountStore();
+const { useAccount } = storeToRefs(accountStore);
+export default defineComponent({
+  beforeRouteEnter(to, from, next) {
+    console.log(accountStore.useAccount);
+    if (accountStore.useAccount !== "") {
+      next();
+    } else {
+      router.push({
+        path: "/teslaaccount"
+      });
+    }
+  }
+});
+</script>
 <style lang="less" scoped>
 .main {
   margin: 15vh 15vw 0;

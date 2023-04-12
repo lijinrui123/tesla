@@ -21,9 +21,11 @@ app.use(bodyParser())
 app.use(cors())
 const login_router = require('./routes/login/index.js')
 const register_router=require('./routes/register/index.js')
+const shoppingcart_router=require('./routes/shoppingcart/index.js')
 
 app.use(login_router.routes()).use(login_router.allowedMethods())   // 让路由与koa联系起来
 app.use(register_router.routes()).use(register_router.allowedMethods())
+.use(shoppingcart_router.routes()).use(shoppingcart_router.allowedMethods())
 app.listen(config.port, () => {
     console.log('项目已启动');
 })
