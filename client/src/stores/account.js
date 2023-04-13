@@ -1,15 +1,18 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 const useAccountStore = defineStore('accountStore', {
   state: () => {
     return {
       useAccount: '',
-      commodity: ''
+      commodity: '',
+      userId:''
     }
   },
   actions: {
     saveAccount(account) {
       this.useAccount = account
+    },
+    saveUserId(id){
+      this.userId=id
     },
     useLogOut() {
       this.useAccount = ''

@@ -139,8 +139,10 @@ const open = () => {
           console.log(res.data.data.account);
           accountStore.saveAccount(res.data.data.user.account);
           accountStore.useSaveCommodity(res.data.data.shoppingcarts.commodity)
+          accountStore.saveUserId(res.data.data.user._id)
           console.log(accountStore.useAccount);
           console.log(accountStore.commodity);
+          console.log(accountStore.userId);
           router.push({
             path: "/teslaaccount",
             query: {
@@ -302,7 +304,8 @@ const handleDraw = () => {
   state.imgCode = draw();
 };
 </script>
-// <script>
+
+//  <script>
 // // 组件路由守卫
 // import { defineComponent } from "vue";
 // import { useRouter } from "vue-router";
@@ -323,7 +326,7 @@ const handleDraw = () => {
 //   }
 // });
 //
-</script>
+// </script>
 <style lang="less" scoped>
 .header {
   margin-bottom: 10vh;

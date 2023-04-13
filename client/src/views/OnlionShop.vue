@@ -45,7 +45,7 @@ import axios from "axios";
 import useAccountStore from "../stores/account";
 
 const accountStore = useAccountStore();
-// const { useAccount, saveAccount ,useSaveCommodity} = storeToRefs(accountStore);
+console.log(accountStore.commodity);
 
 let isLogin = ref(false);
 if (accountStore.useAccount) {
@@ -95,14 +95,17 @@ const trimAll = ele => {
 };
 
 const order = e => {
-  let t=trimAll(e)
+  let t = trimAll(e);
   accountStore.addCars(t);
+  console.log(accountStore.commodity);
   axios({
     method: "post",
     url: "http://localhost:3000/shoppingcart",
     data: {
+      methods: "add",
       account: accountStore.useAccount,
-      car: accountStore.commodity
+      car: accountStore.commodity,
+      id: accountStore.userId
     }
   })
     .then(res => {
@@ -119,10 +122,31 @@ const addCar = e => {
     method: "post",
     url: "http://localhost:3000/shoppingcart",
     data: {
+      methods: "add",
       account: accountStore.useAccount,
       car: accountStore.commodity
     }
   })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+const decreaseCars = e => {
+  accountStore.deleteCars(e);
+  console.log(accountStore.commodity);
+  axios({
+      method: "post",
+      url: "http://localhost:3000/shoppingcart",
+      data: {
+        methods: "decrease",
+        account: accountStore.useAccount,
+        car: accountStore.commodity
+      }
+    })
     .then(res => {
       console.log(res);
     })
@@ -183,14 +207,16 @@ const addCar = e => {
     }
     .item {
       display: flex;
-      margin-top: 5vh;
+      margin-top: 2vh;
       padding: 0 3vw;
+
       .car {
-        font-size: 20px;
-        width: 80px;
-        height: 80px;
+        font-size: 15px;
+        width: 70px;
+        height: 70px;
         border: 1px solid #000;
-        line-height: 80px;
+        line-height: 70px;
+        text-align: center;
         border-radius: 20px;
       }
       .num {

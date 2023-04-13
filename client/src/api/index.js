@@ -1,6 +1,6 @@
-import axios from 'axios';
+// import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost/3000'
+// axios.defaults.baseURL = 'http://localhost/3000'
 // axios.defaults.withCredentials = true // 开启axios携带凭证的能力
 // axios.defaults.crossDomain=true
 
@@ -14,4 +14,4 @@ axios.defaults.baseURL = 'http://localhost/3000'
 // axios.interceptors.response.use(res=>{
 // })
 
-export default axios
+// export default axios
