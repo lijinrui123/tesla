@@ -36,18 +36,13 @@
     <div class="top">请再次输入密码</div>
     <input type="password" class="input" placeholder="请输入密码" v-model="rePasswordAgain" />
     <div class="check">
+      <input type="checkbox" @click="changeCheck" />创建 Tesla 账户，即表示我了解并同意
       <!-- <el-checkbox
         v-model="checked"
         label="创建 Tesla 账户，即表示我了解并同意"
         size="large"
-        @click="changeCheck"
-      />-->
-      <el-checkbox
-        v-model="checked"
-        label="创建 Tesla 账户，即表示我了解并同意"
-        size="large"
         :change="changeCheck()"
-      />
+      />-->
     </div>
 
     <div class="img-verify">
@@ -84,19 +79,19 @@ import { storeToRefs } from "pinia";
 import useAccountStore from "../stores/account";
 import Header from "../components/Header.vue";
 const accountStore = useAccountStore();
-const { useAccount, saveAccount ,useSaveCommodity} = storeToRefs(accountStore);
+const { useAccount, saveAccount, useSaveCommodity } = storeToRefs(accountStore);
 
 onMounted(() => {
-  // 登录页阻止回退
-  sessionStorage.clear();
-  history.pushState(null, null, document.URL);
-  window.addEventListener(
-    "popstate",
-    function() {
-      history.pushState(null, null, document.URL);
-    },
-    false
-  );
+  // // 登录页阻止回退
+  // sessionStorage.clear();
+  // history.pushState(null, null, document.URL);
+  // window.addEventListener(
+  //   "popstate",
+  //   function() {
+  //     history.pushState(null, null, document.URL);
+  //   },
+  //   false
+  // );
   // 判断当前用户是否已经登录
   if (accountStore.useAccount) {
     router.push({
@@ -136,10 +131,14 @@ const open = () => {
       .then(res => {
         console.log(res);
         if (res.data.code === 1) {
-          console.log(res.data.data.account);
+          console.log(res.data.data.user.account);
           accountStore.saveAccount(res.data.data.user.account);
-          accountStore.useSaveCommodity(res.data.data.shoppingcarts.commodity)
-          accountStore.saveUserId(res.data.data.user._id)
+          if(!res.data.data.shoppingcarts.commodity){
+            accountStore.useSaveCommodity(null);
+          }else{
+            accountStore.useSaveCommodity(res.data.data.shoppingcarts.commodity);
+          }
+          accountStore.saveUserId(res.data.data.user._id);
           console.log(accountStore.useAccount);
           console.log(accountStore.commodity);
           console.log(accountStore.userId);
@@ -177,10 +176,11 @@ let verifyInput = ref("");
 
 const changeCheck = () => {
   checked = !checked;
+  console.log(checked);
   if (checked === false) {
-    dis.value = true;
+    dis.value = false;
   } else {
-    dis.value = false; // 取消 创建用户 按钮禁用
+    dis.value = true; // 取消 创建用户 按钮禁用
   }
 };
 const register = () => {
@@ -205,15 +205,14 @@ const register = () => {
     rePassword.value === rePasswordAgain.value
   ) {
     ElMessage.error("验证码有误");
+    return
   }
   console.log(state.imgCode);
-  // console.log(verifyInput.value);
   if (
     reAccount.value &&
     rePassword.value === rePasswordAgain.value &&
     rePassword.value.length >= 6 &&
-    state.imgCode === verifyInput.value
-    // checked.value===true
+    state.imgCode === verifyInput.value 
   ) {
     // 注册
     console.log(111);
@@ -305,28 +304,6 @@ const handleDraw = () => {
 };
 </script>
 
-//  <script>
-// // 组件路由守卫
-// import { defineComponent } from "vue";
-// import { useRouter } from "vue-router";
-
-// const router = useRouter();
-// const accountStore = useAccountStore();
-// const { useAccount } = storeToRefs(accountStore);
-// export default defineComponent({
-//   beforeRouteEnter(to, from, next) {
-//     console.log(accountStore.useAccount);
-//     if (accountStore.useAccount === "") {
-//       next();
-//     } else {
-//       router.push({
-//         path: "/teslaaccount"
-//       });
-//     }
-//   }
-// });
-//
-// </script>
 <style lang="less" scoped>
 .header {
   margin-bottom: 10vh;

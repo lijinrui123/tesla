@@ -1,5 +1,5 @@
 const userInfo = require('../../modles/login')   // UserInfo 就是生成的user表
-const shoppingCart=require('../../modles/shoppingCart')  // 存储购物车的表
+const shoppingCart = require('../../modles/shoppingCart')  // 存储购物车的表
 // 登录操作
 const login = async (ctx, next) => {
     console.log(ctx.request.body);
@@ -25,23 +25,47 @@ const login = async (ctx, next) => {
             // console.log('密码错误');
         } else {  // 密码正确
             // 去购物车表里面找对应账号的数据
-            const userAccount=user.account
-            const shoppingcarts=await shoppingCart.findOne({
-                account:userAccount
+            const userAccount = user.account
+            const shoppingcarts = await shoppingCart.findOne({
+                account: userAccount
             })
-            console.log(shoppingcarts+'   hfguirt');
-            ctx.body = {
-                code: 1,
-                msg: '登录成功',
-                data: {    // 将账号密码以及账号购物车信息返回给前端
-                    user:user,
-                    shoppingcarts:shoppingcarts
-                },   
+            if (!shoppingcarts) {
+                shoppingCart.create({
+                    account: account,
+                    commodity: {
+                        ModelX: 0,
+                        ModelY: 0,
+                        Model3: 0,
+                        Cybertruck: 0,
+                        Powerwall: 0,
+                    }
+                })
+                const shoppingcarts1 = await shoppingCart.findOne({
+                    account: userAccount
+                })
+                console.log('aaaaa');
+                ctx.body = {
+                    code: 1,
+                    msg: '登录成功',
+                    data: {    // 将账号密码以及账号购物车信息返回给前端
+                        user: user,
+                        shoppingcarts: shoppingcarts1
+                    },
+                }
+            } else {
+                ctx.body = {
+                    code: 1,
+                    msg: '登录成功',
+                    data: {    // 将账号密码以及账号购物车信息返回给前端
+                        user: user,
+                        shoppingcarts: shoppingcarts
+                    },
+                }
             }
-            // console.log('密码正确');
+
         }
     }
-    console.log(user);
+
 }
 
 module.exports = {

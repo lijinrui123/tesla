@@ -173,9 +173,9 @@ const preserveCar = (e) => {
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 
-const router = useRouter();
+// const router = useRouter();
 const accountStore = useAccountStore();
-const { useAccount } = storeToRefs(accountStore);
+// const { useAccount } = storeToRefs(accountStore);
 export default defineComponent({
   beforeRouteEnter(to, from, next) {
     console.log(accountStore.useAccount);

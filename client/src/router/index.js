@@ -32,11 +32,6 @@ const router = createRouter({
       path: '/account',
       name: 'account',
       component: () => import('../views/Account.vue'),
-      // beforeEnter: (to, from) => {
-      //   console.log(to);
-      //   console.log(from);
-      //   return false
-      // },
     },
     {
       path: '/navigation',
