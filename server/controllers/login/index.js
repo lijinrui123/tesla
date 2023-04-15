@@ -29,38 +29,13 @@ const login = async (ctx, next) => {
             const shoppingcarts = await shoppingCart.findOne({
                 account: userAccount
             })
-            if (!shoppingcarts) {
-                shoppingCart.create({
-                    account: account,
-                    commodity: {
-                        ModelX: 0,
-                        ModelY: 0,
-                        Model3: 0,
-                        Cybertruck: 0,
-                        Powerwall: 0,
-                    }
-                })
-                const shoppingcarts1 = await shoppingCart.findOne({
-                    account: userAccount
-                })
-                console.log('aaaaa');
-                ctx.body = {
-                    code: 1,
-                    msg: '登录成功',
-                    data: {    // 将账号密码以及账号购物车信息返回给前端
-                        user: user,
-                        shoppingcarts: shoppingcarts1
-                    },
-                }
-            } else {
-                ctx.body = {
-                    code: 1,
-                    msg: '登录成功',
-                    data: {    // 将账号密码以及账号购物车信息返回给前端
-                        user: user,
-                        shoppingcarts: shoppingcarts
-                    },
-                }
+            ctx.body = {
+                code: 1,
+                msg: '登录成功',
+                data: {    // 将账号密码以及账号购物车信息返回给前端
+                    user: user,
+                    shoppingcarts: shoppingcarts
+                },
             }
 
         }

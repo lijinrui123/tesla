@@ -18,12 +18,12 @@
       <div class="head">{{accountStore.useAccount}}的购物车</div>
       <div
         v-for="(value, key) in accountStore.commodity"
-        :class="{none:value===0 ? true : false,item:value===0 ? false :true}"
+        :class="{none:Number(value) === 0 ? true : false,item:Number(value) === 0 ? false :true}"
       >
         <div class="car">{{key}}</div>
         <div class="num">
           <div class="name">{{ key }}</div>
-          <div class="buy">订购：{{ value }}</div>
+          <div class="buy">订购：{{ value }}件</div>
           <div class="box">
             <div class="add" @click="addCar(key)">+</div>
             <div class="dec" @click="decreaseCars(key)">-</div>
@@ -139,14 +139,14 @@ const decreaseCars = e => {
   accountStore.deleteCars(e);
   console.log(accountStore.commodity);
   axios({
-      method: "post",
-      url: "http://localhost:3000/shoppingcart",
-      data: {
-        methods: "decrease",
-        account: accountStore.useAccount,
-        car: accountStore.commodity
-      }
-    })
+    method: "post",
+    url: "http://localhost:3000/shoppingcart",
+    data: {
+      methods: "decrease",
+      account: accountStore.useAccount,
+      car: accountStore.commodity
+    }
+  })
     .then(res => {
       console.log(res);
     })
@@ -224,6 +224,7 @@ const decreaseCars = e => {
         .name {
           font-weight: 550;
           margin-bottom: 10px;
+          width: 20px;
         }
         .box {
           display: flex;

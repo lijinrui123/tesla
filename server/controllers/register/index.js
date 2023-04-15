@@ -1,4 +1,5 @@
 const userInfo = require('../../modles/login')   // UserInfo 就是生成的user表
+const shoppingcart = require('../../modles/shoppingCart')
 
 const register = async (ctx, next) => {
     console.log(ctx.request.body);
@@ -19,10 +20,23 @@ const register = async (ctx, next) => {
     }
     // 账号不存在 向数据库插入数据
     if (result === null) {
-        userInfo.create({
+        let obj = {
+            Model3: 0,
+            ModelX: 0,
+            ModelY: 0,
+            ModelS: 0,
+            Cybertruck: 0,
+            Powerwall: 0,
+        }
+        userInfo.create({   // 创建用户信息表
             account: account,
             password: password
         })
+        shoppingcart.create({   // 创建购物车表
+            account: account,
+            commodity: obj
+        })
+
         ctx.body = {
             code: 1,
             msg: '注册成功'

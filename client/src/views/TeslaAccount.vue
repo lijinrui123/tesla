@@ -116,6 +116,7 @@ import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 
+
 onMounted(() => {
   // 登录页阻止回退
   sessionStorage.clear();
@@ -143,7 +144,7 @@ const logOut = () => {
 
 // 订车
 const preserveCar = (e) => {
-  console.log(e);
+  // console.log(e);
   accountStore.addCars(e);
   console.log(accountStore.commodity);
   axios({
@@ -178,7 +179,7 @@ const accountStore = useAccountStore();
 // const { useAccount } = storeToRefs(accountStore);
 export default defineComponent({
   beforeRouteEnter(to, from, next) {
-    console.log(accountStore.useAccount);
+    // console.log(accountStore.useAccount);
     if (accountStore.useAccount !== "") {
       next();
     } else {

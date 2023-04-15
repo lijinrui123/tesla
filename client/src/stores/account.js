@@ -3,7 +3,7 @@ const useAccountStore = defineStore('accountStore', {
   state: () => {
     return {
       useAccount: '',
-      commodity: '',
+      commodity: {},
       userId:''
     }
   },
@@ -15,10 +15,12 @@ const useAccountStore = defineStore('accountStore', {
       this.userId=id
     },
     useLogOut() {
-      this.useAccount = ''
+      this.useAccount = '',
+      this.commodity={},
+      this.userId=''
     },
     useSaveCommodity(item) {
-      this.commodity = item
+      this.commodity = JSON.parse(JSON.stringify(item))
     },
     addCars(item) {
       if (!this.commodity[item]) {

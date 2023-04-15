@@ -119,6 +119,7 @@ const open = () => {
   }
 
   if (account.value && password.value) {
+   
     // 如果输入了账号与密码就发接口请求
     axios({
       method: "post",
@@ -131,17 +132,13 @@ const open = () => {
       .then(res => {
         console.log(res);
         if (res.data.code === 1) {
-          console.log(res.data.data.user.account);
+          console.log(res.data.data.shoppingcarts.commodity);
           accountStore.saveAccount(res.data.data.user.account);
-          if(!res.data.data.shoppingcarts.commodity){
-            accountStore.useSaveCommodity(null);
-          }else{
-            accountStore.useSaveCommodity(res.data.data.shoppingcarts.commodity);
-          }
+          accountStore.useSaveCommodity(res.data.data.shoppingcarts.commodity);
           accountStore.saveUserId(res.data.data.user._id);
-          console.log(accountStore.useAccount);
+          // console.log(accountStore.useAccount);
           console.log(accountStore.commodity);
-          console.log(accountStore.userId);
+          // console.log(accountStore.userId);
           router.push({
             path: "/teslaaccount",
             query: {
@@ -205,17 +202,16 @@ const register = () => {
     rePassword.value === rePasswordAgain.value
   ) {
     ElMessage.error("验证码有误");
-    return
+    return;
   }
   console.log(state.imgCode);
   if (
     reAccount.value &&
     rePassword.value === rePasswordAgain.value &&
     rePassword.value.length >= 6 &&
-    state.imgCode === verifyInput.value 
+    state.imgCode === verifyInput.value
   ) {
     // 注册
-    console.log(111);
     axios({
       method: "post",
       url: "http://localhost:3000/register",
